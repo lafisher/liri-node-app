@@ -5,12 +5,38 @@ var Twitter = require('twitter');
 var spotify = require('spotify');
 var request = require('request');
 
-//keys yo - dont forget to .gitignore this shizzle later
+//keys - dont forget to .gitignore this later
 var keys = require('./keys.js');
 
+// give user the options
+
+function startHal (){
+  console.log("What can I do for you dave?");
+  console.log("type: 'my-tweets', 'spotify-this-song', 'movie-nerd', or 'open-the-pod-bay-doors' after node liri.js to play" );
+};
+startHal();
 // hal 
-var hal = {
- /* "my-tweets": function() {
+var tweet = 'my-tweets';
+var spot = 'spotify-this-song';
+var movie = 'movie-nerd';
+var podBayDoors = 'open-the-pod-bay-doors'
+var inputOne = process.argv[2];
+var inputTwo = process.argv[3];
+
+//function to start playing with liri bot,  can't help the 2001 references it's too easy 
+//this is wrong.  had it working at one point. lost it. i blame H.A.L.
+function daisy(){
+  if (inputOne = spot) {
+     songSearch();
+     
+  }
+  (inputOne = movie) 
+    movieSearch();
+   
+     
+  };
+   
+ /* function myTweets() {
  var params = {screen_name: 'LeighluDevDevi'};
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
       if (!error) {
@@ -18,7 +44,7 @@ var hal = {
         console.log('================ My Tweets ================');
         tweetData.forEach(function(obj) {
           console.log('--------------------------');
-          console.log('Time: ' + obj.created_at);
+          console .log('Time: ' + obj.created_at);
           console.log('Tweet: ' + obj.text);
           console.log('--------------------------');
           console.log(' ');
@@ -27,14 +53,14 @@ var hal = {
         console.log(' ');
         // console.log(tweets);
 
-        hal.logData(tweetData);
       } else {
-        console.log(error);
+        console.log("I'm sorry Dave. I'm Afraid I can't do that.");
       }
     });
   },*/
-  "spotify-this-song": function(keyword) {
-    spotify.search({ type: 'track', query: keyword || 'The Sign Ace of Base' }, function(err, data) {
+  
+ function songSearch() {
+    spotify.search({ type: 'track', query: inputTwo || 'The Sign Ace of Base' }, function(err, data) {
       if ( err ) {
           console.log('Error occurred: ' + err);
           return;
@@ -52,15 +78,16 @@ var hal = {
         console.log('********************************************');
         console.log(' ');
 
-        hal.logData(data);
       } else {
         console.log("I'm sorry Dave. I'm afraid I can't do that.");
       }
 
     });
-  },
-  "movie-nerd": function(query) {
-    request('http://www.omdbapi.com/?t=' + (query || 'Mr.Nobody') +'&tomatoes=true', function (error, response, info) {
+  };
+  // "movie-this" command = "movie-nerd" 
+  
+  function movieSearch () {
+    request('http://www.omdbapi.com/?t=' + (inputTwo || 'Mr.Nobody') +'&tomatoes=true', function (error, response, info) {
       if (!error && response.statusCode == 200) {
 
         var movieData = JSON.parse(info);
@@ -79,77 +106,20 @@ var hal = {
         console.log('********************************************');
         console.log(' ');
 
-        hal.logData(movieData);
+      } else {
+        console.log("I'm sorry Dave. I'm afraid I can't do that.");
       }
     });
-  },
-  "do-what-it-says": function() {
+  }
+ /*function openPodBay () {
     fs.readFile('random.txt', 'utf8', function(err, data) {
       if(err) throw err;
       console.log(data.toString());
 
       var rando = data.toString().split(',');
 
-      hal[rando[0].trim()](rando[1].trim());
     });
-  },
-  logData: function(data) {
-    fs.appendFile('log.txt', JSON.stringify(data, null, 2) + '\n====================================================================================', function(err) {
-      if(err) {
-        console.log("I'm Sorry Dave. I'm afriad I can't do that.");
-      }
-    });
-  }
-};
+  
 
-hal[process.argv[2]](process.argv[3]);
+};*/
               
-
-/*Make it so liri.js can take in one of the following commands:
-
-my-tweets
-
-spotify-this-song
-
-movie-this
-
-do-what-it-says
-
-What Each Command Should Do
-
-node liri.js my-tweets
-
-This will show your last 20 tweets and when they were created at in your terminal/bash window.
-node liri.js spotify-this-song '<song name here>'
-
-This will show the following information about the song in your terminal/bash window
-
-Artist(s)
-The song's name
-A preview link of the song from Spotify
-The album that the song is from
-if no song is provided then your program will default to
-
-"The Sign" by Ace of Base
-node liri.js movie-this '<movie name here>'
-
-This will output the following information to your terminal/bash window:
-
-  * Title of the movie.
-  * Year the movie came out.
-  * IMDB Rating of the movie.
-  * Country where the movie was produced.
-  * Language of the movie.
-  * Plot of the movie.
-  * Actors in the movie.
-  * Rotten Tomatoes Rating.
-  * Rotten Tomatoes URL.
-If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'
-
-If you haven't watched "Mr. Nobody," then you should: http://www.imdb.com/title/tt0485947/
-It's on Netflix!
-node liri.js do-what-it-says
-
-Using the fs Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
-It should run spotify-this-song for "I Want it That Way," as follows the text in random.txt.
-Feel free to change the text in that document to test out the feature for other commands.*/

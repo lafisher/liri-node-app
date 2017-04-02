@@ -1,5 +1,4 @@
 
-
 exports.twitterKeys = {
   consumer_key: 'ITqr7YIarpazkzW1CF9FBkOW6',
   consumer_secret: 'ETscww8CbDiY4O4RxuCAlo7cXZIDuoFi7HceUEZ1nXaUURodwH',
@@ -8,4 +7,3 @@ exports.twitterKeys = {
 }
 
 
-console.log('what are you doing dave?');
