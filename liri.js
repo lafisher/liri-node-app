@@ -16,27 +16,40 @@ function startHal (){
 };
 startHal();
 // hal 
-var tweet = 'my-tweets';
+/*var tweet = 'my-tweets';
 var spot = 'spotify-this-song';
 var movie = 'movie-nerd';
-var podBayDoors = 'open-the-pod-bay-doors'
+var podBayDoors = 'open-the-pod-bay-doors'*/
+
 var inputOne = process.argv[2];
 var inputTwo = process.argv[3];
 
 //function to start playing with liri bot,  can't help the 2001 references it's too easy 
 //this is wrong.  had it working at one point. lost it. i blame H.A.L.
 function daisy(){
-  if (inputOne = spot) {
+  switch(inputOne) {
+     
+     case 'my-tweets':
+     myTweets();
+     break;
+     
+     case 'spotify-this-song':
      songSearch();
-     
+     break;
+
+     case 'movie-nerd': 
+     movieSearch();
+     break;
+
+     case 'open-the-pod-bay-doors':
+     openPodBay ()
+     break;
   }
-  (inputOne = movie) 
-    movieSearch();
-   
      
-  };
    
- /* function myTweets() {
+};
+   
+ function myTweets() {
  var params = {screen_name: 'LeighluDevDevi'};
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
       if (!error) {
@@ -57,7 +70,7 @@ function daisy(){
         console.log("I'm sorry Dave. I'm Afraid I can't do that.");
       }
     });
-  },*/
+  }
   
  function songSearch() {
     spotify.search({ type: 'track', query: inputTwo || 'The Sign Ace of Base' }, function(err, data) {
@@ -111,7 +124,7 @@ function daisy(){
       }
     });
   }
- /*function openPodBay () {
+ function openPodBay () {
     fs.readFile('random.txt', 'utf8', function(err, data) {
       if(err) throw err;
       console.log(data.toString());
@@ -119,7 +132,7 @@ function daisy(){
       var rando = data.toString().split(',');
 
     });
-  
+ }; 
+daisy();
 
-};*/
               
