@@ -8,24 +8,19 @@ var request = require('request');
 //keys - dont forget to .gitignore this later
 var keys = require('./keys.js');
 
-// give user the options
+// console.log to give user the input options
 
 function startHal (){
   console.log("What can I do for you dave?");
-  console.log("type: 'my-tweets', 'spotify-this-song', 'movie-nerd', or 'open-the-pod-bay-doors' after node liri.js to play" );
+  console.log("type: 'my-tweets', 'spotify-this-song' song title, 'movie-nerd' movie title, or 'open-the-pod-bay-doors' after node liri.js to play" );
 };
 startHal();
-// hal 
-/*var tweet = 'my-tweets';
-var spot = 'spotify-this-song';
-var movie = 'movie-nerd';
-var podBayDoors = 'open-the-pod-bay-doors'*/
 
 var inputOne = process.argv[2];
 var inputTwo = process.argv[3];
 
-//function to start playing with liri bot,  can't help the 2001 references it's too easy 
-//this is wrong.  had it working at one point. lost it. i blame H.A.L.
+//function to start liri bot,  can't help the 2001 references it's too easy 
+//swtich case break isn't my favorite way to do things but this is working so i'm going with it 
 function daisy(){
   switch(inputOne) {
      
@@ -44,36 +39,39 @@ function daisy(){
      case 'open-the-pod-bay-doors':
      openPodBay ()
      break;
-  }
-     
+  }   
    
 };
    
- function myTweets() {
- var params = {screen_name: 'LeighluDevDevi'};
-    client.get('statuses/user_timeline', params, function(error, tweets, response) {
-      if (!error) {
-        console.log(' ');
-        console.log('================ My Tweets ================');
-        tweetData.forEach(function(obj) {
-          console.log('--------------------------');
-          console .log('Time: ' + obj.created_at);
-          console.log('Tweet: ' + obj.text);
-          console.log('--------------------------');
-          console.log(' ');
-        });
-        console.log('===========================================');
-        console.log(' ');
-        // console.log(tweets);
+function myTweets() {
 
-      } else {
-        console.log("I'm sorry Dave. I'm Afraid I can't do that.");
-      }
-    });
-  }
+  var client = new Twitter({
+		consumer_key: keys.twitterKeys.consumer_key,
+		consumer_secret: keys.twitterKeys.consumer_secret,
+		access_token_key: keys.twitterKeys.access_token_key,
+		access_token_secret: keys.twitterKeys.access_token_secret
+	});
+// set parameters 
+	var params = {
+		screen_name: 'LeighluDevDevi',
+		count: 20,
+	};
+
+//tweet tweet Mother!%@*&!$
+	client.get('statuses/user_timeline', params, function(error, tweets, response){
+		if (!error) {
+      console.log("*********Tweet Tweet*********");
+	        for (i=0; i<tweets.length; i++) {
+	            var returnedData = ('Number: ' + (i+1) + '\n' + tweets[i].created_at + '\n' + tweets[i].text + '\n');
+	            console.log(returnedData);
+	            console.log("***********Tweet Tweet***********");
+	        }
+	    };
+	});
+};
   
  function songSearch() {
-    spotify.search({ type: 'track', query: inputTwo || 'The Sign Ace of Base' }, function(err, data) {
+    spotify.search({ type: 'track', query: inputTwo || 'Mr. Roboto' }, function(err, data) {
       if ( err ) {
           console.log('Error occurred: ' + err);
           return;
@@ -125,14 +123,15 @@ function daisy(){
     });
   }
  function openPodBay () {
+  	console.log("daisy daisy give me your answer do . . .");
     fs.readFile('random.txt', 'utf8', function(err, data) {
       if(err) throw err;
+      
       console.log(data.toString());
-
-      var rando = data.toString().split(',');
-
-    });
- }; 
+      movieSearch(data.toString());
+//not working correctly currently 
+});
+ }
 daisy();
 
               
