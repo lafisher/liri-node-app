@@ -14,7 +14,7 @@ function startHal (){
   console.log("What can I do for you dave?");
   console.log("type: 'my-tweets', 'spotify-this-song' song title, 'movie-nerd' movie title, or 'open-the-pod-bay-doors' after node liri.js to play" );
 };
-startHal();
+//startHal();
 
 var inputOne = process.argv[2];
 var inputTwo = process.argv[3];
@@ -133,5 +133,5 @@ function myTweets() {
 });
  }
 daisy();
-
+startHal();
               
